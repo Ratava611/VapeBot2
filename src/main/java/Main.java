@@ -25,7 +25,7 @@ public class Main {
     private static String getToken() {
         Scanner in = null;
         try {
-            in = new Scanner(new FileReader("TOKEN.txt"));
+            in = new Scanner(new FileReader("src/main/resources/TOKEN.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
