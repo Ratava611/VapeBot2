@@ -1,3 +1,5 @@
+package bot;
+
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -6,9 +8,6 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
-
 /**
  * Created by Dillon Domnick. @since 9/27/2020
  *
@@ -23,7 +22,7 @@ public class EventListener extends ListenerAdapter {
     /**
      * Fields
      */
-    //private CommandManager manager = new CommandManager(null);
+    private CommandManager manager = new CommandManager();
     private final Logger logger = LoggerFactory.getLogger(EventListener.class);
 
     /**
@@ -32,18 +31,19 @@ public class EventListener extends ListenerAdapter {
     @Override
     public void onReady(ReadyEvent event)
     {
-        logger.info(String.format("Logged in as %#s", event.getJDA().getSelfUser()));
+        logger.info(String.format("Listener logged in as %#s", event.getJDA().getSelfUser()));
         super.onReady(event);
     }
 
+    /**
+     * Logs private messages
+     * @param event on message received
+     */
     public void onMessageReceived(MessageReceivedEvent event)
     {
-        /**
-         * Fields
-         */
         User author = event.getAuthor();                //The user that sent the message
         Message message = event.getMessage();           //The message that was received.
-        String msg = message.getContentDisplay();    //This is the MessageChannel that the message was sent to.
+        String msg = message.getContentDisplay();       //This is the MessageChannel that the message was sent to.
 
         //These are provided with every event in JDA
         JDA jda = event.getJDA();
@@ -68,30 +68,11 @@ public class EventListener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event)
     {
-        if (event.getMessage().getContentRaw().equalsIgnoreCase(Enums.PREFIX + "shutdown")
-                && event.getAuthor().getIdLong() == Enums.OWNER)
-        {
-            shutdown(event.getJDA());
-            return;
-        }
-
         if (!event.getAuthor().isBot() && !event.getMessage().isWebhookMessage()
                 && event.getMessage().getContentRaw().startsWith(Enums.PREFIX))
         {
-            //manager.handleCommand(event);
+            manager.handleCommand(event);
         }
-        else if (!event.getAuthor().isBot() && !event.getMessage().isWebhookMessage()
-                && event.getMessage().getContentRaw().startsWith("hey"))
-        {
-            event.getChannel().sendMessage("fuck you").queue();
-            event.getChannel().sendMessage("kys").queue();
-        }
-    }
-
-    private void shutdown(JDA jda)
-    {
-        jda.shutdown();
-        System.exit(0);
     }
 }
 

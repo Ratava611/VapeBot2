@@ -1,3 +1,5 @@
+package bot;
+
 /**
  * Created by Dillon Domnick. @since 9/27/2020
  *
