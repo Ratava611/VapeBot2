@@ -1,6 +1,7 @@
 package bot;
 
-import commands.Ping;
+import commands.utility.Ping;
+import commands.utility.ServerInfo;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -25,6 +26,7 @@ public class CommandManager {
     public CommandManager()
     {
         addCommand(new Ping());
+        addCommand(new ServerInfo());
         //addCommand(new Help(this));
         //addCommand(new Cat());
         //addCommand(new Dog());

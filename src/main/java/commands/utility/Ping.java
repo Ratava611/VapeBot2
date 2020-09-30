@@ -1,4 +1,4 @@
-package commands;
+package commands.utility;
 
 import bot.CommandInterface;
 import bot.Enums;
