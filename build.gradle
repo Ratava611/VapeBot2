@@ -14,6 +14,7 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+    implementation group: 'org.reflections', name: 'reflections', version: '0.9.12'
     implementation 'net.dv8tion:JDA:4.2.0_204'
 
 }

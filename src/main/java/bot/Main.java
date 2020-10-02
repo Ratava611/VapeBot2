@@ -40,7 +40,7 @@ public class Main {
     /**
      * Constructor
      */
-    public static void main(String[] args) throws InterruptedException, UnsupportedEncodingException
+    public static void main(String[] args)
     {
         new Main();
     }

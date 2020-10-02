@@ -1,13 +1,16 @@
 package bot;
 
-import commands.utility.Ping;
-import commands.utility.ServerInfo;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -22,32 +25,29 @@ import java.util.regex.Pattern;
 public class CommandManager {
 
     private final static Map<String, CommandInterface> cmds = new HashMap<>();
+    private final Logger logger = LoggerFactory.getLogger(CommandManager.class);
 
-    public CommandManager()
-    {
-        addCommand(new Ping());
-        addCommand(new ServerInfo());
-        //addCommand(new Help(this));
-        //addCommand(new Cat());
-        //addCommand(new Dog());
-        //addCommand(new Meme(random));
-        //addCommand(new UserInfo());
-        //addCommand(new Kick());
-        //addCommand(new Ban());
-        //addCommand(new Unban());
-        //addCommand(new Join());
-        //addCommand(new Leave());
-        //addCommand(new Play());
-        //addCommand(new Stop());
-        //addCommand(new Purge());
-        //addCommand(new Calculator());
-        //addCommand(new Skip());
-        //addCommand(new Queue());
+    public CommandManager() {
+
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .setUrls(ClasspathHelper.forPackage(""))
+                .setScanners(new SubTypesScanner(false), new TypeAnnotationsScanner())
+                .filterInputsBy(new FilterBuilder().includePackage("commands.")));
+        Set<Class<?>> allClasses = reflections.getSubTypesOf(Object.class);
+
+        for (Class<?> command : allClasses) {
+            try {
+                addCommand((CommandInterface) command.getDeclaredConstructor().newInstance());
+            } catch (Exception e) {
+                logger.info(e.getMessage());
+            }
+        }
     }
 
     private void addCommand(CommandInterface cmd) {
         if (!cmds.containsKey(cmd.getInvoke())) {
             cmds.put(cmd.getInvoke(), cmd);
+            logger.info("Added command: " + cmd.getClass().getName());
         }
     }
 
