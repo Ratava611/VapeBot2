@@ -5,6 +5,7 @@ import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import java.io.*;
@@ -59,6 +60,7 @@ public class Main {
                     .setBulkDeleteSplittingEnabled(false)
                     .setLargeThreshold(50)
                     .addEventListeners(new EventListener())
+                    //.enableIntents(GatewayIntent.GUILD_PRESENCES) # For later if I need it, reduces performance
                     .build().awaitReady();
             logger.info("Connected.");
         }

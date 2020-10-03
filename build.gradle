@@ -15,6 +15,7 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
     implementation group: 'org.reflections', name: 'reflections', version: '0.9.12'
+    implementation group: 'com.jagrosh', name: 'jda-utilities', version: '3.0.4'
     implementation 'net.dv8tion:JDA:4.2.0_204'
 
 }
