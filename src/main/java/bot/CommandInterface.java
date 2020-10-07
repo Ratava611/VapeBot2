@@ -1,5 +1,8 @@
 package bot;
 
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.List;
@@ -18,5 +21,6 @@ public interface CommandInterface {
     void handle(List<String> args, GuildMessageReceivedEvent event);
     String getHelp();
     String getInvoke();
+    Permission getPermissionLevel();
 }
 

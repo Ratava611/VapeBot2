@@ -1,7 +1,9 @@
 package commands.utility;
 
+import bot.Command;
 import bot.CommandInterface;
 import bot.Enums;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.List;
@@ -15,22 +17,20 @@ import java.util.List;
  *
  * pings
  */
-public class Ping implements CommandInterface {
+public class Ping extends Command implements CommandInterface {
+
     @Override
-    public void handle(List<String> args, GuildMessageReceivedEvent event)
-    {
+    public void handle(List<String> args, GuildMessageReceivedEvent event) {
         event.getChannel().sendMessageFormat("Ping is %sms", event.getJDA().getGatewayPing()).queue();
     }
 
     @Override
-    public String getHelp()
-    {
+    public String getHelp() {
         return "Usage: `" + Enums.PREFIX + getInvoke() + "`";
     }
 
     @Override
-    public String getInvoke()
-    {
+    public String getInvoke() {
         return "ping";
     }
 }

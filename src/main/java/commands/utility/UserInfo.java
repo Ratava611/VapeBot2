@@ -1,5 +1,6 @@
 package commands.utility;
 
+import bot.Command;
 import bot.CommandInterface;
 import bot.Enums;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  *
  * User info
  */
-public class UserInfo implements CommandInterface {
+public class UserInfo extends Command implements CommandInterface {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -37,8 +38,6 @@ public class UserInfo implements CommandInterface {
 
         //TODO there's no way importing an entire repository for one thing is efficient here
         List<User> users = FinderUtil.findUsers(joined, event.getJDA());
-        System.out.println(users.get(0));
-
         if (users.isEmpty())
         {
             List<Member> members = FinderUtil.findMembers(joined, event.getGuild());
@@ -59,10 +58,10 @@ public class UserInfo implements CommandInterface {
                 .setThumbnail(user.getEffectiveAvatarUrl().replaceFirst(".gif", ".png"))
                 .addField("Username", String.format("%#s", user), false)
                 .addField("Display name", member.getEffectiveName(), false)
-                .addField("User Id + Mention", String.format("%s {%s}", user.getId(), member.getAsMention()), false)
+                .addField("User Id + Mention", String.format("%s (%s)", user.getId(), member.getAsMention()), false)
                 .addField("Account Created", user.getTimeCreated().format(DateTimeFormatter.RFC_1123_DATE_TIME), false)
                 .addField("Joined Server", member.getTimeJoined().format(DateTimeFormatter.RFC_1123_DATE_TIME), false)
-                .addField("Connection Status", member.getOnlineStatus().name().replaceAll("_", " "), false)
+                //.addField("Connection Status", member.getOnlineStatus().name().replaceAll("_", " "), false)
                 .addField("Bot Status", user.isBot() ? "Yes" : "No", false)
                 .build();
 
